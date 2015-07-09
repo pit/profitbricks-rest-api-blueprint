@@ -1,0 +1,4187 @@
+FORMAT: 1A
+
+# Profitbricks Public REST API
+
+Profitbricks REST API allows creation and manipulation of Virtual Datacenters and it's components.
+
+[Official user documentation](at http://devops.profitbricks.com/api/rest)
+
+# Group Datacenter
+
+## Datacenters collection [/datacenters]
+### Retrieve datacenters [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+    
+            {
+                "id": "datacenters",
+                "type": "collection",
+                "href": "<base>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "items": [
+                    {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                        "type": "datacenter",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022"
+                    },
+                    {
+                        "id": "a3a3b61b-9b2e-4d41-90ad-cfd932da2812",
+                        "type": "datacenter",
+                        "href": "https://api.profitbricks.com/rest/datacenters/a3a3b61b-9b2e-4d41-90ad-cfd932da2812"
+                    }
+                ]
+            }
+
+            
+### Create a datacenter [POST]
+    
++ Request Create an empty datacenter (application/vnd.profitbricks.resource+json)
+
+        {
+            "properties": {
+                "name": "My New Datacenter",
+                "description": "Production environment",
+                "location": "de/fkb"
+            }
+        }
+
++ Response 202 (application/vnd.profitbricks.resource+json)
+  
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "type": "datacenter",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "My New Datacenter",
+                    "description": "Production environment",
+                    "location": "de/fkb",
+                    "version": 4
+                },
+                "entities": {
+                    "servers": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/servers",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers"
+                    },
+                    "volumes": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes"
+                    },
+                    "loadbalancers": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers"
+                    },
+                    "lans": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/lans",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans"
+                    }
+            
+                }
+            }
+            
++ Request Create a datacenter with a server, nic, cdrom (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "My New Datacenter",
+                    "description": "Production environment",
+                    "location": "de/fkb"
+                },
+                "entities": {
+                    "servers": {
+                        "items": [
+                            {
+                                "properties": {
+                                    "name": "My New Server1",
+                                    "ram": 4096,
+                                    "cores": 4
+                                },
+                                "entities": {
+                                    "nics": {
+                                        "items": [
+                                            {
+                                                "properties": {
+                                                    "ips": [],
+                                                    "lan": 1
+                                                },
+                                                "entities": {
+                                                    "firewallrules": {
+                                                        "items": [
+                                                            {
+                                                                "properties": {
+                                                                    "protocol": "TCP",
+                                                                    "portRangeStart": "23",
+                                                                    "portRangeEnd": "23"
+                                                                }
+                                                            },
+                                                            {
+                                                                "properties": {
+                                                                    "protocol": "TCP",
+                                                                    "targetIp": "23.34.22.22"
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "cdroms": {
+                                        "items": [
+                                            {
+                                                "id": "<ISO-IMAGE-UUID>"
+                                            }
+                                        ]
+                                    },
+                                    "volumes": {
+                                        "items": [
+                                            {
+                                                "properties": {
+                                                    "size": 22,
+                                                    "bus": "AHCI",
+                                                    "image": "<HDD-IMAGE2-UUID>"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "volumes": {
+                        "items": [
+                            {
+                                "properties": {
+                                    "size": 99,
+                                    "bus": "AHCI",
+                                    "image": "<HDD-IMAGE-UUID>"
+                                }
+                            }
+                        ]
+                    },
+                    "lans": {
+                        "items": [
+                            {
+                                "id": 456,
+                                "properties": {
+                                    "public": true
+                                }
+                            }
+                        ]
+                    },
+                    "loadbalancers": {
+                        "items": [
+                            {
+                                "properties": {
+                                    "ip": "10.11.12.13",
+                                    "dhcp": false
+                                }
+                            }
+                        ]
+                    }
+                }
+
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)
+  
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "type": "datacenter",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "My New Datacenter",
+                    "description": "Production environment",
+                    "location": "de/fkb",
+                    "version": 4
+                },
+                "entities": {
+                    "servers": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/servers",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers"
+                    },
+                    "volumes": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes"
+                    },
+                    "loadbalancers": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers"
+                    },
+                    "lans": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/lans",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans"
+                    }
+                }
+            }
+            
+## Datacenter [/datacenters/{datacenter_id}] 
+
++ Parameter 
+    + datacenter_id ... Datacenter identifier 
+    
+### Retrieve datacenter [GET]
+
++ Request No-parameters call
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+    
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "type": "datacenter",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "datacenter1",
+                    "description": "Description of my DC",
+                    "version": 4,
+                    "location": "de/fkb"
+                },
+                "entities": {
+                    "servers": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/servers",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers"
+                    },
+                    "volumes": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes"
+                    },
+                    "loadbalancers": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers"
+                    },
+                    "lans": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/lans",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans"
+                    }
+                }
+            }
+        
++ Request Call with ?depth=1 /expand immediate children/
+        
++ Response 200 (application/vnd.profitbricks.resource+json)
+        
+               {
+                   "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                   "type": "datacenter",
+                   "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                   "metadata": {
+                       "lastModifiedDate": "2014-02-01T11:12:12Z",
+                       "lastModifiedBy": "User X",
+                       "createdDate": "2014-02-01T11:12:12Z",
+                       "createdBy": "User X",
+                       "state": "AVAILABLE",
+                       "etag": "123whatever"
+                   },
+                   "properties": {
+                       "name": "datacenter1",
+                       "description": "Description of my DC",
+                       "location": "de/fkb",
+                       "version": 4
+                   },
+                   "entities": {
+                       "servers": {
+                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/servers",
+                           "type": "collection",
+                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers",
+                           "items": [
+                               {
+                                   "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                                   "type": "server",
+                                   "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                                   "metadata": {
+                                       "lastModifiedDate": "2014-02-01T11:12:12Z",
+                                       "lastModifiedBy": "User X",
+                                       "createdDate": "2014-02-01T11:12:12Z",
+                                       "createdBy": "User X",
+                                       "state": "AVAILABLE",
+                                       "etag": "123whatever"
+                                   },
+                                   "properties": {
+                                       "name": "server1",
+                                       "cores": "4",
+                                       "ram": "4096",
+                                       "availabilityZone": "ZONE_1",
+                                       "vmState": "RUNNING",
+                                       "bootVolume": {
+                                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                                           "type": "volume",
+                                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025"
+                                       },
+                                       "bootCdrom": null
+                                   },
+                                   "entities": {
+                                       "cdroms": {
+                                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                                           "type": "collection",
+                                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms"
+                                       },
+                                       "nics": {
+                                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                                           "type": "collection",
+                                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics"
+                                       },
+                                       "volumes": {
+                                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                                           "type": "collection",
+                                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes"
+                                       }
+                                   }
+                               },
+                               {
+                                   "id": "700e1cab-99b2-4c30-ba8c-1d273ddba024",
+                                   "type": "server",
+                                   "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba024",
+                                   "metadata": {
+                                       "lastModifiedDate": "2014-02-01T11:12:12Z",
+                                       "lastModifiedBy": "User X",
+                                       "createdDate": "2014-02-01T11:12:12Z",
+                                       "createdBy": "User X",
+                                       "state": "AVAILABLE",
+                                       "etag": "123whatever"
+                                   },
+                                   "properties": {
+                                       "name": "server2",
+                                       "cores": "8",
+                                       "ram": "1024",
+                                       "availabilityZone": "ZONE_2",
+                                       "vmState": "RUNNING",
+                                       "bootVolume": null,
+                                       "bootCdrom": {
+                                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba029",
+                                           "type": "image",
+                                           "href": "https://api.profitbricks.com/rest/images/7df81087-5835-41c6-a10b-3e098593bbd2"
+                                       }
+                                   },
+                                   "entities": {
+                                       "cdroms": {
+                                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba024/cdroms",
+                                           "type": "collection",
+                                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba024/cdroms"
+                                       },
+                                       "nics": {
+                                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba024/nics",
+                                           "type": "collection",
+                                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba024/nics"
+                                       },
+                                       "volumes": {
+                                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba024/volumes",
+                                           "type": "collection",
+                                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba024/volumes"
+                                       }
+                                   }
+                               }
+                           ]
+                       },
+                       "volumes": {
+                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes",
+                           "type": "collection",
+                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes",
+                           "items": [
+                               {
+                                   "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                                   "type": "volume",
+                                   "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                                   "metadata": {
+                                       "lastModifiedDate": "2014-02-01T11:12:12Z",
+                                       "lastModifiedBy": "User X",
+                                       "createdDate": "2014-02-01T11:12:12Z",
+                                       "createdBy": "User X",
+                                       "state": "AVAILABLE",
+                                       "etag": "123whatever"
+                                   },
+                                   "properties": {
+                                       "name": "my boot volume for server 1",
+                                       "size": 80,
+                                       "bus": "VIRTIO",
+                                       "image": null,
+                                       "imagePassword": null,
+                                       "type": "HDD",
+                                       "licenceType": "WINDOWS",
+                                       "cpuHotPlug": false,
+                                       "cpuHotUnplug": false,
+                                       "ramHotPlug": false,
+                                       "ramHotUnplug": false,
+                                       "nicHotPlug": false,
+                                       "nicHotUnplug": false,
+                                       "discVirtioHotPlug": false,
+                                       "discVirtioHotUnplug": false,
+                                       "discScsiHotPlug": false,
+                                       "discScsiHotUnplug": false
+                                       
+                                   }
+                               }
+                           ]
+                       },
+                       "loadbalancers": {
+                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers",
+                           "type": "collection",
+                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers",
+                           "items": [
+                               {
+                                   "id": "700e1cab-99b2-4c30-ba8c-1d273ddba027",
+                                   "type": "loadbalancer",
+                                   "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/700e1cab-99b2-4c30-ba8c-1d273ddba027",
+                                   "metadata": {
+                                       "lastModifiedDate": "2014-02-01T11:12:12Z",
+                                       "lastModifiedBy": "User X",
+                                       "createdDate": "2014-02-01T11:12:12Z",
+                                       "createdBy": "User X",
+                                       "state": "AVAILABLE",
+                                       "etag": "123whatever"
+                                   },
+                                   "properties": {
+                                       "name": "LB1",
+                                       "ip": "10.2.1.2",
+                                       "dhcp": "true"
+                                   },
+                                   "entities": {
+                                       "balancednics": {
+                                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba027/balancednics",
+                                           "type": "collection",
+                                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/700e1cab-99b2-4c30-ba8c-1d273ddba027/balancednics"
+                                       }
+                                   }
+                               }
+                           ]
+                       },
+                       "lans": {
+                           "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/lans",
+                           "type": "collection",
+                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans",
+                           "items": [
+                               {
+                                   "id": "1",
+                                   "type": "lan",
+                                   "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/1",
+                                   "metadata": {
+                                       "lastModifiedDate": "2014-02-01T11:12:12Z",
+                                       "lastModifiedBy": "User X",
+                                       "createdDate": "2014-02-01T11:12:12Z",
+                                       "createdBy": "User X",
+                                       "state": "AVAILABLE",
+                                       "etag": "123whatever"
+                                   },
+                                   "properties": {
+                                       "name": "LB1",
+                                       "routing": "INTERNAL"
+                                   },
+                                   "entities": {
+                                       "nics": {
+                                           "id": "1/nics",
+                                           "type": "collection",
+                                           "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/1/nics"
+                                       }
+                                   }
+                               }
+                           ]
+                       }
+                   }
+               }
+
+### Replace properties of datacenter [PUT]
+
++ Request (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "datacenter1 - updated name",
+                    "description": "Description of my DC"
+                }
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)            
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            
+    + Body 
+            
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "type": "datacenter",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "datacenter1 - updated name",
+                    "description": "Description of my DC",
+                    "location": "de/fkb",
+                    "version": 4
+                },
+                "entities": {
+                    "servers": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/servers",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers"
+                    },
+                    "volumes": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes"
+                    },
+                    "loadbalancers": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers"
+                    },
+                    "lans": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/lans",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans"
+                    }
+                }
+            }      
+
+### Partially update a datacenter [PATCH]
+
++ Request Rename a datacenter (application/vnd.profitbricks.partial-properties+json)
+
+            {
+                "name": "Partially updated datacenter name"
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)            
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            
+    + Body 
+            
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "type": "datacenter",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "datacenter1",
+                    "description": "Description of my DC",
+                    "location": "de/fkb",
+                    "version": 4
+                },
+                "entities": {
+                    "servers": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/servers",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers"
+                    },
+                    "volumes": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes"
+                    },
+                    "loadbalancers": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers"
+                    },
+                    "lans": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/lans",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans"
+                    }
+                }
+            }      
+            
+### Remove datacenter [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+# Group Server 
+
+## Servers collection [/datacenters/{datacenter_id}/servers]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+
+### List servers [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/servers",
+                "type": "collection",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers",
+                "items": [
+                    {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                        "type": "server",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "BUSY",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "New Server",
+                            "cores": "4",
+                            "ram": "4096",
+                            "availabilityZone": "ZONE_1",
+                            "vmState": "SHUTOFF",
+                            "bootVolume": null,
+                            "bootCdrom": null
+                        },
+                        "entities": {
+                            "cdroms": {
+                                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                                "type": "collection",
+                                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms"
+                            },
+                            "nics": {
+                                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                                "type": "collection",
+                                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics"
+                            },
+                            "volumes": {
+                                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                                "type": "collection",
+                                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes"
+                            }
+                        }
+                    }
+                ]
+            }
+        
+### Create a server [POST]
+
++ Request Create server with an existing volume attached (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "New Server",
+                    "ram": 4096,
+                    "cores": 4
+                },
+                "entities": {
+                    "volumes": {
+                        "items": [
+                            {
+                                "id": "<NEW-STORAGE-ID>"
+                            }
+                        ]
+                    }
+                }
+            }
+        
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                "type": "server",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "New Server",
+                    "cores": "4",
+                    "ram": "4096",
+                    "availabilityZone": "ZONE_1",
+                    "vmState": "SHUTOFF",
+                    "bootVolume": null,
+                    "bootCdrom": null
+                },
+                "entities": {
+                    "cdroms": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms"
+                    },
+                    "nics": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics"
+                    },
+                    "volumes": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes"
+                    }
+                }
+            }
+
++ Request Create a server with a new volume attached (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "New Server",
+                    "ram": 4096,
+                    "cores": 4
+                },
+                "entities": {
+                    "volumes": {
+                        "items": [
+                            {
+                                "properties": {
+                                    "size": 56,
+                                    "name": "Implicitly attached volume with attach-create notation",
+                                    "image": "<IMAGE/SNAPSHOT-ID>",
+                                    "bus": "VIRTIO"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+
+        
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                "type": "server",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "New Server",
+                    "cores": "4",
+                    "ram": "4096",
+                    "availabilityZone": "ZONE_1",
+                    "vmState": "SHUTOFF",
+                    "bootVolume": null,
+                    "bootCdrom": null
+                },
+                "entities": {
+                    "cdroms": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms"
+                    },
+                    "nics": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics"
+                    },
+                    "volumes": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes"
+                    }
+                }
+            }
+
+
+## Server [/datacenters/{datacenter_id}/servers/{server_id}] 
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+
+### Retrieve server [GET]
+
++ Request No-parameters call
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+                {
+                    "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                    "type": "server",
+                    "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "BUSY",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "New Server",
+                        "cores": "4",
+                        "ram": "4096",
+                        "availabilityZone": "ZONE_1",
+                        "vmState": "SHUTOFF",
+                        "bootVolume": null,
+                        "bootCdrom": null
+                    },
+                    "entities": {
+                        "cdroms": {
+                            "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                            "type": "collection",
+                            "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms"
+                        },
+                        "nics": {
+                            "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                            "type": "collection",
+                            "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics"
+                        },
+                        "volumes": {
+                            "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                            "type": "collection",
+                            "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes"
+                        }
+                    }
+                }
+
++ Request Call with ?depth=1 /expand immediate children/
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                "type": "server",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "server1",
+                    "cores": "4",
+                    "ram": "4096",
+                    "availabilityZone": "ZONE_1",
+                    "vmState": "RUNNING",
+                    "bootVolume": {
+                        "metadata": {
+                            "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                            "type": "volume",
+                            "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "my boot volume for server 1",
+                            "size": 80,
+                            "bus": "VIRTIO",
+                            "image": null,
+                            "imagePassword": null,
+                            "type": "HDD",
+                            "licenceType": "WINDOWS",
+                            "cpuHotPlug": false,
+                            "cpuHotUnplug": false,
+                            "ramHotPlug": false,
+                            "ramHotUnplug": false,
+                            "nicHotPlug": false,
+                            "nicHotUnplug": false,
+                            "discVirtioHotPlug": false,
+                            "discVirtioHotUnplug": false,
+                            "discScsiHotPlug": false,
+                            "discScsiHotUnplug": false
+                        }
+                    },
+                    "bootCdrom": null
+                },
+                "entities": {
+                    "cdroms": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                        "items": []
+                    },
+                    "nics": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                        "items": [
+                            {
+                                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba030",
+                                "type": "nic",
+                                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/700e1cab-99b2-4c30-ba8c-1d273ddba030",
+                                "metadata": {
+                                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                                    "lastModifiedBy": "User X",
+                                    "createdDate": "2014-02-01T11:12:12Z",
+                                    "createdBy": "User X",
+                                    "state": "AVAILABLE",
+                                    "etag": "123whatever"
+                                },
+                                "properties": {
+                                    "name": "nic1",
+                                    "mac": "AB:21:23:09:78:C2",
+                                    "ips": ["10.2.2.3"],
+                                    "dhcp": "true",
+                                    "lan": 1,
+                                    "firewallActive": false
+                                },
+                                "entities": {
+                                    "id": "700e1cab-99b2-4c30-ba8c-1d273ddba030/firewallrules",
+                                    "type": "collection",
+                                    "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/700e1cab-99b2-4c30-ba8c-1d273ddba030/firewallrules"
+                                }
+                            }
+                        ]
+                    },
+                    "volumes": {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                        "type": "collection",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                        "items": [
+                            {
+                                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                                "type": "volume",
+                                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                                "metadata": {
+                                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                                    "lastModifiedBy": "User X",
+                                    "createdDate": "2014-02-01T11:12:12Z",
+                                    "createdBy": "User X",
+                                    "state": "AVAILABLE",
+                                    "etag": "123whatever"
+                                },
+                                "properties": {
+                                    "name": "my boot volume for server 1",
+                                    "size": 80,
+                                    "bus": "VIRTIO",
+                                    "image": null,
+                                    "imagePassword": null,
+                                    "type": "HDD",
+                                    "licenceType": "WINDOWS",
+                                    "cpuHotPlug": false,
+                                    "cpuHotUnplug": false,
+                                    "ramHotPlug": false,
+                                    "ramHotUnplug": false,
+                                    "nicHotPlug": false,
+                                    "nicHotUnplug": false,
+                                    "discVirtioHotPlug": false,
+                                    "discVirtioHotUnplug": false,
+                                    "discScsiHotPlug": false,
+                                    "discScsiHotUnplug": false
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        
+### Replace properties of server [PUT]
+
++ Request (application/vnd.profitbricks.resource+json)   
+
+        {
+             "properties": {
+                "name": "server1 - updated",
+                "cores": "12",
+                "ram": "4096",
+                "availabilityZone": "ZONE_1",
+                "bootVolume": {
+                    "id": "<ID-OF-ANOTHER-STORAGE>"
+                },
+                "bootCdrom": null
+             }
+        }            
+        
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+    
+                {
+                    "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                    "type": "server",
+                    "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "BUSY",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "server1 - updated",
+                        "cores": "12",
+                        "ram": "4096",
+                        "availabilityZone": "ZONE_1",
+                        "bootVolume": {
+                            "id": "<ID-OF-ANOTHER-STORAGE>"
+                        },
+                        "bootCdrom": null
+                    },
+                    "entities": {
+                        "cdroms": {
+                            "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                            "type": "collection",
+                            "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms"
+                        },
+                        "nics": {
+                            "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                            "type": "collection",
+                            "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics"
+                        },
+                        "volumes": {
+                            "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                            "type": "collection",
+                            "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes"
+                        }
+                    }
+                }
+
+
+### Partially update a server [PATCH]
+
++ Request Vertically upscale a server (application/vnd.profitbricks.partial-properties+json)   
+
+            {
+                "cores": 16
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+    
+                {
+                    "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                    "type": "server",
+                    "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "BUSY",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "server1 - updated",
+                        "cores": "16",
+                        "ram": "4096",
+                        "availabilityZone": "ZONE_1",
+                        "bootVolume": {
+                            "id": "<ID-OF-ANOTHER-STORAGE>"
+                        },
+                        "bootCdrom": null
+                    },
+                    "entities": {
+                        "cdroms": {
+                            "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                            "type": "collection",
+                            "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms"
+                        },
+                        "nics": {
+                            "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                            "type": "collection",
+                            "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics"
+                        },
+                        "volumes": {
+                            "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                            "type": "collection",
+                            "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes"
+                        }
+                    }
+                }
+
+
+### Remove server [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            
+## Server volumes collection [/datacenters/{datacenter_id}/servers/{server_id}/volumes]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+    
+### List volumes attached [GET]
+
++ Request No-parameter 
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                "type": "collection",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/volumes",
+                "items": [
+                    {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                        "type": "volume",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "my boot volume for server 1",
+                            "size": 80,
+                            "bus": "VIRTIO",
+                            "image": null,
+                            "imagePassword": null,
+                            "type": "HDD",
+                            "licenceType": "WINDOWS",
+                            "cpuHotPlug": false,
+                            "cpuHotUnplug": false,
+                            "ramHotPlug": false,
+                            "ramHotUnplug": false,
+                            "nicHotPlug": false,
+                            "nicHotUnplug": false,
+                            "discVirtioHotPlug": false,
+                            "discVirtioHotUnplug": false,
+                            "discScsiHotPlug": false,
+                            "discScsiHotUnplug": false
+                        }
+                    }
+                ]
+            }
+
+### Attach volume to server [POST]
+
++ Request Attach existing volume to server (application/vnd.profitbricks.resource+json)
+
+                {
+                    "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025"
+                }
+        
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+    
+                {
+                    "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                    "type": "volume",
+                    "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "BUSY",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "my boot volume for server 1",
+                        "size": 80,
+                        "bus": "VIRTIO",
+                        "image": null,
+                        "imagePassword": null,
+                        "type": "HDD",
+                        "licenceType": "WINDOWS",
+                        "cpuHotPlug": false,
+                        "cpuHotUnplug": false,
+                        "ramHotPlug": false,
+                        "ramHotUnplug": false,
+                        "nicHotPlug": false,
+                        "nicHotUnplug": false,
+                        "discVirtioHotPlug": false,
+                        "discVirtioHotUnplug": false,
+                        "discScsiHotPlug": false,
+                        "discScsiHotUnplug": false
+                    }
+                }
+
+## Server volume [/datacenters/{datacenter_id}/servers/{server_id}/volumes/{volume_id}]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+    + volume_id ... Volume identifier
+    
+### Retrieve attached volume [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+     + Headers
+
+             ETag: 123whatever
+
+     + Body
+
+               {
+                    "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                    "type": "volume",
+                    "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "AVAILABLE",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "my boot volume for server 1",
+                        "size": 80,
+                        "bus": "VIRTIO",
+                        "image": null,
+                        "imagePassword": null,
+                        "type": "HDD",
+                        "licenceType": "WINDOWS",
+                        "cpuHotPlug": false,
+                        "cpuHotUnplug": false,
+                        "ramHotPlug": false,
+                        "ramHotUnplug": false,
+                        "nicHotPlug": false,
+                        "nicHotUnplug": false,
+                        "discVirtioHotPlug": false,
+                        "discVirtioHotUnplug": false,
+                        "discScsiHotPlug": false,
+                        "discScsiHotUnplug": false
+                    }
+                }
+                    
+### Detach volume from server [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+## Server CD Roms collection [/datacenters/{datacenter_id}/servers/{server_id}/cdroms]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+    
+### List CD Roms attached [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                "type": "collection",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/cdroms",
+                "items": [
+                    {
+                        "id": "7df81087-5835-41c6-a10b-3e098593bbd2",
+                        "type": "image",
+                        "href": "https://api.profitbricks.com/rest/images/7df81087-5835-41c6-a10b-3e098593bbd2",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "Ubuntu 14.04",
+                            "description": "Ubuntu image description",
+                            "location": "de/fkb",
+                            "size": 28,
+                            "public": false,
+                            "imageType": "CDROM",
+                            "cpuHotPlug": false,
+                            "cpuHotUnplug": false,
+                            "ramHotPlug": false,
+                            "ramHotUnplug": false,
+                            "nicHotPlug": false,
+                            "nicHotUnplug": false,
+                            "discVirtioHotPlug": false,
+                            "discVirtioHotUnplug": false,
+                            "discScsiHotPlug": false,
+                            "discScsiHotUnplug": false,
+                            "licenceType": "UNKNOWN"
+                        }
+                    }
+                ]
+            }
+
+
+### Attach CD Rom to server [POST]
+
++ Request (application/vnd.profitbricks.resource+json)
+
+                {
+                    "id": "7df81087-5835-41c6-a10b-3e098593bbd2"
+                }
+                
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+    
+            {
+                "id": "7df81087-5835-41c6-a10b-3e098593bbd2",
+                "type": "image",
+                "href": "https://api.profitbricks.com/rest/images/7df81087-5835-41c6-a10b-3e098593bbd2",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "Ubuntu 14.04",
+                    "description": "Ubuntu image description",
+                    "location": "de/fkb",
+                    "size": 28,
+                    "public": false,
+                    "imageType": "CDROM",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false,
+                    "licenceType": "UNKNOWN"
+                }
+            }
+
+## Server CD Rom [/datacenters/{datacenter_id}/servers/{server_id}/cdroms/{cdrom_id}]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+    + cdrom_id ... CD Rom identifier
+    
+### Retrieve attached CD Rom [GET]
+
++ Request No-parameter call
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "7df81087-5835-41c6-a10b-3e098593bbd2",
+                "type": "image",
+                "href": "https://api.profitbricks.com/rest/images/7df81087-5835-41c6-a10b-3e098593bbd2",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "Ubuntu 14.04",
+                    "description": "Ubuntu image description",
+                    "location": "de/fkb",
+                    "size": 28,
+                    "public": false,
+                    "imageType": "CDROM",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false,
+                    "licenceType": "UNKNOWN"
+                }
+            }
+
+### Detach CD Rom from server [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+## Start server command [/datacenters/{datacenter_id}/servers/{server_id}/start]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+    
+### Execute start server [POST]
+
++ Request Start Server (application/x-www-form-urlencoded)
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            
+## Stop server command [/datacenters/{datacenter_id}/servers/{server_id}/stop]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+
+### Execute Stop Server [POST]
+
++ Request stop server (application/x-www-form-urlencoded)
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            
+## Reboot server command [/datacenters/{datacenter_id}/servers/{server_id}/reboot]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+
+### Execute reboot server [POST]
+
++ Request Reboot Server (application/x-www-form-urlencoded)
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+# Group Nic 
+
+## Nics collection [/datacenters/{datacenter_id}/servers/{server_id}/nics]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+
+### List nics [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                "type": "collection",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics",
+                "items": [
+                    {
+                        "id": "<NIC-ID>",
+                        "type": "nic",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "BUSY",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "nic1",
+                            "mac": "AB:21:23:09:78:C2",
+                            "ips": ["10.2.2.3"],
+                            "dhcp": "true",
+                            "lan": 1,
+                            "firewallActive": false
+                        },
+                        "entities": {
+                            "firewallrules": {
+                                "id": "<NIC-ID>/firewallrules",
+                                "type": "collection",
+                                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules"
+                            }
+                        }
+                    }
+                ]
+            }
+
+### Create a nic [POST]
+
++ Request Add a nic with firewall rules to server (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "nic1",
+                    "ips": ["10.2.2.3"],
+                    "dhcp": "true",
+                    "lan": 1,
+                    "firewallActive": true
+                },
+                "entities": {
+                    "firewallrules": {
+                        "items": [
+                            {
+                                "properties": {
+                                    "name": "Open SSH port",
+                                    "protocol": "TCP",
+                                    "sourceMac": "01:23:45:67:89:00",
+                                    "portRangeStart": 22
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "name": "Allow PING",
+                                    "protocol": "ICMP",
+                                    "icmpType": 8,
+                                    "icmpCode": 0
+                                }
+                            }
+                        ]
+                    }
+                }
+            }    
+        
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+            {
+                "id": "<NIC-ID>",
+                "type": "nic",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "nic1",
+                    "mac": "AB:21:23:09:78:C2",
+                    "ips": ["10.2.2.3"],
+                    "dhcp": "true",
+                    "lan": 1,
+                    "firewallActive": false
+                },
+                "entities": {
+                    "firewallrules": {
+                        "id": "<NIC-ID>/firewallrules",
+                        "type": "collection",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules"
+                    }
+                }
+            }
+     
+
+## Nic [/datacenters/{datacenter_id}/servers/{server_id}/nics/{nic_id}] 
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+
+### Retrieve a nic [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "<NIC-ID>",
+                "type": "nic",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "nic1",
+                    "mac": "AB:21:23:09:78:C2",
+                    "ips": ["10.2.2.3"],
+                    "dhcp": "true",
+                    "lan": 1,
+                    "firewallActive": false
+                },
+                "entities": {
+                    "firewallrules": {
+                        "id": "<NIC-ID>/firewallrules",
+                        "type": "collection",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules"
+                    }
+                }
+            }
+
+### Replace properties of nic [PUT]
+
++ Request (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "nic1",
+                    "ips": ["10.2.2.3"],
+                    "dhcp": "true",
+                    "lan": 1
+                }
+            } 
+            
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+            {
+                "id": "<NIC-ID>",
+                "type": "nic",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "nic1",
+                    "ips": ["10.2.2.3"],
+                    "mac": "AB:21:23:09:78:C2",
+                    "dhcp": "true",
+                    "lan": 1,
+                    "firewallActive": false
+                },
+                "entities": {
+                    "firewallrules": {
+                        "id": "<NIC-ID>/firewallrules",
+                        "type": "collection",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules"
+                    }
+                }
+            }
+
+### Partially update a nic [PATCH]
+
++ Request Add IP to Nic (application/vnd.profitbricks.partial-properties+json)
+
+            {
+                "ips": ["10.2.2.3", "10.2.3.4"]
+            } 
+            
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+            {
+                "id": "<NIC-ID>",
+                "type": "nic",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "nic1",
+                    "ips": ["10.2.2.3", "10.2.3.4"],
+                    "mac": "AB:21:23:09:78:C2",
+                    "dhcp": "true",
+                    "lan": 1,
+                    "firewallActive": false
+                },
+                "entities": {
+                    "firewallrules": {
+                        "id": "<NIC-ID>/firewallrules",
+                        "type": "collection",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules"
+                    }
+                }
+            }
+     
+
+
+### Remove nic [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+## Firewall rules collection [/datacenters/{datacenter_id}/servers/{server_id}/nics/{nic_id}/firewallrules]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+    + nic_id ... Nic identifier
+    
+### List firewall rules [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+             {
+                 "id": "<NIC-ID>/firewallrules",
+                 "type": "collection",
+                 "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules",
+                 "items": [
+                     {
+                         "id": "<RULE1-ID>",
+                         "type": "firewall-rule",
+                         "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules/<RULE1-ID>",
+                         "metadata": {
+                             "lastModifiedDate": "2014-02-01T11:12:12Z",
+                             "lastModifiedBy": "User X",
+                             "createdDate": "2014-02-01T11:12:12Z",
+                             "createdBy": "User X",
+                             "state": "AVAILABLE",
+                             "etag": "123whatever"
+                         },
+                         "properties": {
+                             "name": "Open SSH port",
+                             "protocol": "TCP",
+                             "sourceMac": "01:23:45:67:89:00",
+                             "sourceIp": null,
+                             "targetIp": null,
+                             "portRangeStart": 22,
+                             "portRangeEnd": null,
+                             "icmpType": null,
+                             "icmpCode": null
+             
+                         }
+                     },
+                     {
+                         "id": "<RULE2-ID>",
+                         "type": "firewall-rule",
+                         "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules/<RULE2-ID>",
+                         "metadata": {
+                             "lastModifiedDate": "2014-02-01T11:12:12Z",
+                             "lastModifiedBy": "User X",
+                             "createdDate": "2014-02-01T11:12:12Z",
+                             "createdBy": "User X",
+                             "state": "AVAILABLE",
+                             "etag": "123whatever"
+                         },
+                         "properties": {
+                             "name": "Allow PING",
+                             "protocol": "ICMP",
+                             "sourceMac": null,
+                             "sourceIp": null,
+                             "targetIp": null,
+                             "portRangeStart": null,
+                             "portRangeEnd": null,
+                             "icmpCode": 0,
+                             "icmpType": 8
+                         }
+                     }
+                 ]
+             }
+            
+### Create a firewall rule [POST]
+
++ Request (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "Open SSH port",
+                    "protocol": "TCP",
+                    "sourceMac": "01:23:45:67:89:00",
+                    "sourceIp": null,
+                    "targetIp": null,
+                    "portRangeStart": 22,
+                    "portRangeEnd": null,
+                    "icmpType": null,
+                    "icmpCode": null
+            
+                }
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+            {
+                "id": "<RULE1-ID>",
+                "type": "firewall-rule",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules/<RULE1-ID>",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "Open SSH port",
+                    "protocol": "TCP",
+                    "sourceMac": "01:23:45:67:89:00",
+                    "sourceIp": null,
+                    "targetIp": null,
+                    "portRangeStart": 22,
+                    "portRangeEnd": null,
+                    "icmpType": null,
+                    "icmpCode": null
+    
+                }
+            }
+
+## Firewall rule [/datacenters/{datacenter_id}/servers/{server_id}/nics/{nic_id}/firewallrules/{fwrule_id}]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + server_id ... Server identifier
+    + nic_id ... Nic identifier
+    + fwrule_id ... Firewall rule identifier
+    
+### Retrieve a firewall rule [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "<RULE1-ID>",
+                "type": "firewall-rule",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules/<RULE1-ID>",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "Open SSH port",
+                    "protocol": "TCP",
+                    "sourceMac": "01:23:45:67:89:00",
+                    "sourceIp": null,
+                    "targetIp": null,
+                    "portRangeStart": 22,
+                    "portRangeEnd": null,
+                    "icmpType": null,
+                    "icmpCode": null
+    
+                }
+            }
+
+    
+### Replace properties of firewall rule [PUT]
+
++ Request (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "Open SSH port updated",
+                    "sourceMac": "01:23:45:67:89:00",
+                    "sourceIp": "12.2.11.22",
+                    "targetIp": null,
+                    "portRangeStart": 22,
+                    "portRangeEnd": 1000,
+                    "icmpType": null,
+                    "icmpCode": null
+                }
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)
+  
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+            {
+                "id": "<RULE1-ID>",
+                "type": "firewall-rule",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules/<RULE1-ID>",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "Open SSH port updated",
+                    "protocol": "TCP",
+                    "sourceMac": "01:23:45:67:89:00",
+                    "sourceIp": "12.2.11.22",
+                    "targetIp": null,
+                    "portRangeStart": 22,
+                    "portRangeEnd": 1000,
+                    "icmpType": null,
+                    "icmpCode": null
+                }
+            }
+
+
+### Partially update a firewall rule [PATCH]
+
++ Request Set targetIp and modify sourceMac of a FW rule (application/vnd.profitbricks.partial-properties+json)
+
+            {
+                "sourceMac": "01:98:22:22:44:22",
+                "targetIp": "123.100.101.102"
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)
+            
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+            {
+                "id": "<RULE1-ID>",
+                "type": "firewall-rule",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules/<RULE1-ID>",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "Open SSH port",
+                    "protocol": "TCP",
+                    "sourceMac": "01:98:22:22:44:22",
+                    "sourceIp": null,
+                    "targetIp": "123.100.101.102",
+                    "portRangeStart": 22,
+                    "portRangeEnd": null,
+                    "icmpType": null,
+                    "icmpCode": null
+    
+                }
+            }
+
+### Remove firewall rule [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+# Group Volume
+## Volumes collection [/datacenters/{datacenter_id}/volumes]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    
+### List volumes [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+            
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes",
+                "type": "collection",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes",
+                "items": [
+                    {
+                        "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                        "type": "volume",
+                        "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "my boot volume for server 1",
+                            "size": 80,
+                            "bus": "VIRTIO",
+                            "image": null,
+                            "imagePassword": null,
+                            "type": "HDD",
+                            "licenceType": "WINDOWS",
+                            "cpuHotPlug": false,
+                            "cpuHotUnplug": false,
+                            "ramHotPlug": false,
+                            "ramHotUnplug": false,
+                            "nicHotPlug": false,
+                            "nicHotUnplug": false,
+                            "discVirtioHotPlug": false,
+                            "discVirtioHotUnplug": false,
+                            "discScsiHotPlug": false,
+                            "discScsiHotUnplug": false
+                        }
+                    }
+                ]
+            }
+        
+### Create a volume [POST]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    
++ Request Create a volume (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "size": 56,
+                    "name": "Explicitly created volume",
+                    "image": "<IMAGE/SNAPSHOT-ID>",
+                    "bus": "VIRTIO"
+                }
+            }    
+            
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                "type": "volume",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "my boot volume for server 1",
+                    "size": 80,
+                    "bus": "VIRTIO",
+                    "image": null,
+                    "imagePassword": null,
+                    "type": "HDD",
+                    "licenceType": "WINDOWS",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false
+                }
+            }
+
+## Volume [/datacenters/{datacenter_id}/volumes/{volume_id}]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + volume_id ... Volume identifier
+    
+### Retrieve a volume [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                "type": "volume",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "my boot volume for server 1",
+                    "size": 80,
+                    "bus": "VIRTIO",
+                    "image": null,
+                    "imagePassword": null,
+                    "type": "HDD",
+                    "licenceType": "WINDOWS",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false
+                }
+            }
+
+### Replace properties of volume [PUT]
+    
++ Request (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "Explicitly created volume - updated",
+                    "size": 56,
+                    "bus": "VIRTIO"
+                }
+            }
+
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                "type": "volume",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "size": 56,
+                    "name": "Explicitly created volume - updated",
+                    "bus": "VIRTIO",
+                    "image": null,
+                    "imagePassword": null,
+                    "type": "HDD",
+                    "licenceType": "WINDOWS",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false
+                }
+            }
+            
+### Partially update a volume [PATCH]
+
++ Request Resize and rename a volume (application/vnd.profitbricks.partial-properties+json)
+
+            {
+                "size": 100,
+                "name": "Resized storage to 100 GB"
+            }    
+        
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                "type": "volume",
+                "href": "https://api.profitbricks.com/rest/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/volumes/700e1cab-99b2-4c30-ba8c-1d273ddba025",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "Resized storage to 100 GB",
+                    "size": 100,
+                    "bus": "VIRTIO",
+                    "image": null,
+                    "imagePassword": null,
+                    "type": "HDD",
+                    "licenceType": "WINDOWS",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false
+                }
+            }
+
+### Remove volume [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            
+## Create snapshot command [/datacenters/{datacenter_id}/volumes/{volume_id}/create-snapshot]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + volume_id ... Volume identifier
+    
+### Execute create snapshot [POST]
+
++ Request Create Snapshot (application/x-www-form-urlencoded)
+
+    Request parameters:
+
+        + name ... OPTIONAL, name for snapshot
+        + description ... OPTIONAL, description for snapshot
+
+    + Body
+
+            name=<URLENCODED_SNAPSHOT_NAME>&description=<URLENCODED_SNAPSHOT_DESCRIPTION>
+
++ Response 202 (application/vnd.profitbricks.resource+json)
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+            {
+                "id": "7df81087-5835-41c6-a10b-3e098593bba4",
+                "type": "snapshot",
+                "href": "https://api.profitbricks.com/rest/snapshots/7df81087-5835-41c6-a10b-3e098593bba4",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                     "name": "Snapshot of storage X on 12.12.12 12:12:12 - updated",
+                     "description": "description of a snapshot - updated",
+                     "location": "de/fkb",
+                     "size": 28,
+                     "cpuHotPlug": false,
+                     "cpuHotUnplug": false,
+                     "ramHotPlug": false,
+                     "ramHotUnplug": false,
+                     "nicHotPlug": false,
+                     "nicHotUnplug": false,
+                     "discVirtioHotPlug": false,
+                     "discVirtioHotUnplug": false,
+                     "discScsiHotPlug": false,
+                     "discScsiHotUnplug": false,
+                     "licenceType": "WINDOWS"
+                 }
+            }
+            
+## Restore snapshot command [/datacenters/{datacenter_id}/volumes/{volume_id}/restore-snapshot]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + volume_id ... Volume identifier
+    
+### Execute restore snapshot [POST]
+
++ Request Restore Snapshot (application/x-www-form-urlencoded)
+
+    Request parameters:
+
+        + snapshotId ... MANDATORY, id of the snapshot to restore
+
+    + Body
+
+            snapshotId=<SNAPSHOT_ID>
+
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+# Group Loadbalancer
+## Loadbalancers collection [/datacenters/{datacenter_id}/loadbalancers]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    
+### List loadbalancers [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers",
+                "type": "collection",
+                "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers",
+                "items": [
+                    {
+                        "id": "<LB-ID>",
+                        "type": "loadbalancer",
+                        "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "My LB",
+                            "ip": "10.2.2.3",
+                            "dhcp": "true"
+                        },
+                        "entities": {
+                            "balancednics": {
+                                "id": "<LB-ID>/balancednics",
+                                "type": "collection",
+                                "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>/balancednics"
+                            }
+                        }
+                    }
+                ]
+            }
+
+### Create a loadbalancer [POST]
+
++ Request Create loadbalancer (application/vnd.profitbricks.resource+json)  
+
+            {
+                "properties": {
+                    "name": "My LB",
+                    "ip": "10.2.2.3",
+                    "dhcp": "true"
+                }
+            }
+        
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+                {
+                    "id": "<LB-ID>",
+                    "type": "loadbalancer",
+                    "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "BUSY",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "My LB",
+                        "ip": "10.2.2.3",
+                        "dhcp": "true"
+                    },
+                    "entities": {
+                        "balancednics": {
+                            "id": "<LB-ID>/balancednics",
+                            "type": "collection",
+                            "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>/balancednics"
+                        }
+                    }
+                }
+
++ Request Create loadbalancer with balanced nics attached (application/vnd.profitbricks.resource+json)
+
+                {
+                    "properties": {
+                        "name": "My LB",
+                        "ip": "10.2.2.3",
+                        "dhcp": true
+                    },
+                    "entities": {
+                        "balancednics": {
+                            "items": [
+                                {
+                                    "id": "700e1cab-99b2-4c30-ba8c-1d273ddba030"
+                                },
+                                {
+                                    "id": "df4e4079-1987-4247-91bd-0704b29636f9"
+                                }
+                            ]
+                        }
+                    }
+                }
+
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+                {
+                    "id": "<LB-ID>",
+                    "type": "loadbalancer",
+                    "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "BUSY",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "My LB",
+                        "ip": "10.2.2.3",
+                        "dhcp": "true"
+                    },
+                    "entities": {
+                        "balancednics": {
+                            "id": "<LB-ID>/balancednics",
+                            "type": "collection",
+                            "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>/balancednics"
+                        }
+                    }
+                }
+
+
+
+## Loadbalancer [/datacenters/{datacenter_id}/loadbalancers/{loadbalancer_id}]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + loadbalancer_id ... Loadbalancer identifier
+    
+### Retrieve a loadbalancer [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+                {
+                    "id": "<LB-ID>",
+                    "type": "loadbalancer",
+                    "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "AVAILABLE",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "My LB",
+                        "ip": "10.2.2.3",
+                        "dhcp": "true"
+                    },
+                    "entities": {
+                        "balancednics": {
+                            "id": "<LB-ID>/balancednics",
+                            "type": "collection",
+                            "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>/balancednics"
+                        }
+                    }
+                }
+
+### Replace properties of loadbalancer [PUT]
+
++ Request (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "My LB",
+                    "ip": "10.2.2.3",
+                    "dhcp": "true"
+                }
+            }
+        
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+                {
+                    "id": "<LB-ID>",
+                    "type": "loadbalancer",
+                    "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "BUSY",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "My LB",
+                        "ip": "10.2.2.3",
+                        "dhcp": "true"
+                    },
+                    "entities": {
+                        "balancednics": {
+                            "id": "<LB-ID>/balancednics",
+                            "type": "collection",
+                            "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>/balancednics"
+                        }
+                    }
+                }
+
+               
+### Partially update a loadbalancer [PATCH]
+
++ Request Chenge IP of a loadbalancer (application/vnd.profitbricks.partial-properties+json)  
+
+            {
+                "ip": "10.2.2.4"
+            }
+        
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+   
+                {
+                    "id": "<LB-ID>",
+                    "type": "loadbalancer",
+                    "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "AVAILABLE",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "My LB",
+                        "ip": "10.2.2.4",
+                        "dhcp": "true"
+                    },
+                    "entities": {
+                        "balancednics": {
+                            "id": "<LB-ID>/balancednics",
+                            "type": "collection",
+                            "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>/balancednics"
+                        }
+                    }
+                }
+
+### Remove loadbalancer [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            
+## Balanced nics collection [/datacenters/{datacenter_id}/loadbalancers/{loadbalancer_id}/balancednics]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + loadbalancer_id ... Loadbalancer identifier
+    
+### List balanced nics [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "<LB-ID>/balancednics",
+                "type": "collection",
+                "href": "<base-url>/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/loadbalancers/<LB-ID>/balancednics",
+                "items": [
+                    {
+                        "id": "<NIC-ID>",
+                        "type": "nic",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "nic1",
+                            "mac": "AB:21:23:09:78:C2",
+                            "ips": ["10.2.2.3"],
+                            "dhcp": "true",
+                            "lan": 1,
+                            "firewallActive": false
+                        },
+                        "entities": {
+                            "firewallrules": {
+                                "id": "<NIC-ID>/firewallrules",
+                                "type": "collection",
+                                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules"
+                            }
+                        }
+                    }
+                ]
+            }
+            
+### Assiciate a nic with loadbalancer [POST]
+
++ Request Create loadbalancer (application/vnd.profitbricks.resource+json)   
+
+            {
+                "id": "<NIC-ID>"
+            }
+                    
++ Response 202 (application/vnd.profitbricks.resource+json)   
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+     
+    + Body
+    
+                {
+                    "id": "<NIC-ID>",
+                    "type": "nic",
+                    "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>",
+                    "metadata": {
+                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                        "lastModifiedBy": "User X",
+                        "createdDate": "2014-02-01T11:12:12Z",
+                        "createdBy": "User X",
+                        "state": "BUSY",
+                        "etag": "123whatever"
+                    },
+                    "properties": {
+                        "name": "nic1",
+                        "mac": "AB:21:23:09:78:C2",
+                        "ips": ["10.2.2.3"],
+                        "dhcp": "true",
+                        "lan": 1,
+                        "firewallActive": false
+                    },
+                    "entities": {
+                        "firewallrules": {
+                            "id": "<NIC-ID>/firewallrules",
+                            "type": "collection",
+                            "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules"
+                        }
+                    }
+                }
+
+
+## Balanced nic [/datacenters/{datacenter_id}/loadbalancers/{loadbalancer_id}/balancednics/{nic_id}]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + loadbalancer_id ... Loadbalancer identifier
+    + nic_id ... Balanced nic identifier
+    
+### Retrieve a balanced nic [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+                    {
+                        "id": "<NIC-ID>",
+                        "type": "nic",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "nic1",
+                            "mac": "AB:21:23:09:78:C2",
+                            "ips": ["10.2.2.3"],
+                            "dhcp": "true",
+                            "lan": 1,
+                            "firewallActive": false
+                        },
+                        "entities": {
+                            "firewallrules": {
+                                "id": "<NIC-ID>/firewallrules",
+                                "type": "collection",
+                                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules"
+                            }
+                        }
+                    }
+
+
+### Remove balanced nic [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+# Group Lan
+## Lans collection [/datacenters/{datacenter_id}/lans]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    
+### List lans [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022/lans",
+                "type": "collection",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans",
+                "items": [
+                    {
+                        "id": "4",
+                        "type": "lan",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "public Lan 4",
+                            "public": "true"
+                        },
+                        "entities": {
+                            "nics": {
+                                "id": "4/nics",
+                                "type": "collection",
+                                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4/nics"
+                            }
+                        }
+                    }
+                ]
+            }
+
+### Create a new lan [POST]
+
++ Request Create a public lan (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "public Lan 4",
+                    "public": "true"
+                }
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+            {
+                "id": "4",
+                "type": "lan",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "public Lan 4",
+                    "public": "true"
+                },
+                "entities": {
+                    "nics": {
+                        "id": "4/nics",
+                        "type": "collection",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4/nics"
+                    }
+                }
+            }
+
++ Request Create a public lan with nics attached (application/vnd.profitbricks.resource+json)
+
+            {
+              "properties": {
+                "name": "public Lan 4",
+                "public": true
+              },
+              "entities": {
+                "nics": {
+                  "items": [
+                    {
+                      "id": "700e1cab-99b2-4c30-ba8c-1d273ddba030"
+                    },
+                    {
+                      "id": "df4e4079-1987-4247-91bd-0704b29636f9"
+                    }
+                  ]
+                }
+              }
+            }
+
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+            {
+                "id": "4",
+                "type": "lan",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "public Lan 4",
+                    "public": "true"
+                },
+                "entities": {
+                    "nics": {
+                        "id": "4/nics",
+                        "type": "collection",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4/nics"
+                    }
+                }
+            }
+
+
+## Lan [/datacenters/{datacenter_id}/lans/{lan_id}]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + lan_id ... Lan identifier
+    
+### Retrieve a lan [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "4",
+                "type": "lan",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "public Lan 4",
+                    "public": "true"
+                },
+                "entities": {
+                    "nics": {
+                        "id": "4/nics",
+                        "type": "collection",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4/nics"
+                    }
+                }
+            }
+
+### Replace properties of lan / Create a new lan [PUT]
+
++ Request (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "public Lan 4",
+                    "public": "true"
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+            {
+                "id": "4",
+                "type": "lan",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "public Lan 4",
+                    "public": "true"
+                },
+                "entities": {
+                    "nics": {
+                        "id": "4/nics",
+                        "type": "collection",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4/nics"
+                    }
+                }
+            }
+
+### Partially update a lan [PATCH]
+
++ Request Make lan private (application/vnd.profitbricks.partial-properties+json)
+
+            {
+                "public": "false"
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+              {
+                  "id": "4",
+                  "type": "lan",
+                  "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4",
+                  "metadata": {
+                      "lastModifiedDate": "2014-02-01T11:12:12Z",
+                      "lastModifiedBy": "User X",
+                      "createdDate": "2014-02-01T11:12:12Z",
+                      "createdBy": "User X",
+                      "state": "BUSY",
+                      "etag": "123whatever"
+                  },
+                  "properties": {
+                      "name": "public Lan 4",
+                      "public": "false"
+                  },
+                  "entities": {
+                      "nics": {
+                          "id": "4/nics",
+                          "type": "collection",
+                          "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4/nics"
+                      }
+                  }
+              }
+
+### Remove lan [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+## Lan members collection [/datacenters/{datacenter_id}/lans/{lan_id}/nics]
+
++ Parameters
+    + datacenter_id ... Datacenter identifier
+    + lan_id ... Lan identifier
+    
+### List lan members [GET]
+
++ Request No parameter call
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "4/nics",
+                "type": "collection",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4/nics",
+                "items": [
+                    {
+                        "id": "<NIC-ID>",
+                        "type": "nic",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "nic1",
+                            "mac": "AB:21:23:09:78:C2",
+                            "ips": ["10.2.2.3"],
+                            "dhcp": "true",
+                            "lan": 1,
+                            "firewallActive": false
+                        },
+                        "entities": {
+                            "firewallrules": {
+                                "id": "<NIC-ID>/firewallrules",
+                                "type": "collection",
+                                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules"
+                            }
+                        }
+                    }
+                ]
+            }
+            
++ Request Call with ?depth=1 parameter /expand collection elements and their children/
+ 
++ Response 200 (application/vnd.profitbricks.resource+json)           
+            
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "4/nics",
+                "type": "collection",
+                "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/lans/4/nics",
+                "items": [
+                    {
+                        "id": "<NIC-ID>",
+                        "type": "nic",
+                        "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "nic1",
+                            "mac": "AB:21:23:09:78:C2",
+                            "ips": ["10.2.2.3"],
+                            "dhcp": "true",
+                            "lan": 1,
+                            "firewallActive": false
+                        },
+                        "entities":  {
+                            "id": "<NIC-ID>/firewallrules",
+                            "type": "collection",
+                            "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules",
+                            "items": [
+                                {
+                                    "id": "<RULE1-ID>",
+                                    "type": "firewall-rule",
+                                    "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules/<RULE1-ID>",
+                                    "metadata": {
+                                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                                        "lastModifiedBy": "User X",
+                                        "createdDate": "2014-02-01T11:12:12Z",
+                                        "createdBy": "User X",
+                                        "state": "AVAILABLE",
+                                        "etag": "123whatever"
+                                    },
+                                    "properties": {
+                                        "name": "Open SSH port",
+                                        "protocol": "TCP",
+                                        "sourceMac": "01:23:45:67:89:00",
+                                        "sourceIp": null,
+                                        "targetIp": null,
+                                        "portRangeStart": 22,
+                                        "portRangeEnd": null,
+                                        "icmpType": null,
+                                        "icmpCode": null
+            
+                                    }
+                                },
+                                {
+                                    "id": "<RULE2-ID>",
+                                    "type": "firewall-rule",
+                                    "href": "/datacenters/700e1cab-99b2-4c30-ba8c-1d273ddba022/servers/700e1cab-99b2-4c30-ba8c-1d273ddba023/nics/<NIC-ID>/firewallrules/<RULE2-ID>",
+                                    "metadata": {
+                                        "lastModifiedDate": "2014-02-01T11:12:12Z",
+                                        "lastModifiedBy": "User X",
+                                        "createdDate": "2014-02-01T11:12:12Z",
+                                        "createdBy": "User X",
+                                        "state": "AVAILABLE",
+                                        "etag": "123whatever"
+                                    },
+                                    "properties": {
+                                        "name": "Allow PING",
+                                        "protocol": "ICMP",
+                                        "sourceMac": null,
+                                        "sourceIp": null,
+                                        "targetIp": null,
+                                        "portRangeStart": null,
+                                        "portRangeEnd": null,
+                                        "icmpCode": 0,
+                                        "icmpType": 8
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+
+# Group Locations
+## Locations collection [/locations]
+### List loactions [GET]
+
++ Request No parameters call
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+            
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "locations",
+                "type": "collection",
+                "href": "https://api.profitbricks.com/rest/locations",
+                "items": [
+                    {
+                        "id": "de/fra",
+                        "type": "location",
+                        "href": "https://api.profitbricks.com/rest/locations/de/fra",
+                        "properties": {
+                            "name": "Europe / Germany / Frankfurt"
+                        }
+                    },
+                    {
+                        "id": "de/fkb",
+                        "type": "location",
+                        "href": "https://api.profitbricks.com/rest/locations/de/fkb",
+                        "properties": {
+                            "name": "Europe / Germany / Karlsruhe"
+                        }
+                    },
+                    {
+                        "id": "us/las",
+                        "type": "location",
+                        "href": "https://api.profitbricks.com/rest/locations/us/las",
+                        "properties": {
+                            "name": "North America / USA / Las Vegas"
+                        }
+                    }
+                ]
+            }
+
+## Location [/locations/{location_id}]
+
++ Parameters
+    + location_id ... Location identifier
+    
+### Retrieve a loaction [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "de/fra",
+                "type": "location",
+                "href": "https://api.profitbricks.com/rest/locations/de/fra",
+                "properties": {
+                    "name": "Europe / Germany / Frankfurt"
+                }
+            }
+
+# Group IP block
+## IP blocks collection [/ipblocks]
+### List reserved IP blocks [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+            
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "ipblocks",
+                "type": "collection",
+                "href": "https://api.profitbricks.com/rest/ipblocks",
+                "items": [
+                    {
+                        "id": "854467eb-a0d3-4651-ac83-754e2faedba4",
+                        "type": "ipblock",
+                        "href": "https://api.profitbricks.com/rest/ipblocks/854467eb-a0d3-4651-ac83-754e2faedba4",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "size": 5,
+                            "ips": [
+                                "122.33.4.23",
+                                "122.33.4.24",
+                                "122.33.4.25",
+                                "122.33.4.26",
+                                "122.33.4.27"
+                            ],
+                            "location": "de/fra"
+                        }
+                    }
+                ]
+            }
+
+### Reserve an IP block [POST]
+
++ Request Reserve Ip Block of size 5 in de/fra location (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "location": "de/fra",
+                    "size": 5
+                }
+            }
+    
++ Response 202 (application/vnd.profitbricks.resource+json)
+ 
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+            {
+                "id": "854467eb-a0d3-4651-ac83-754e2faedba4",
+                "type": "ipblock",
+                "href": "https://api.profitbricks.com/rest/ipblocks/854467eb-a0d3-4651-ac83-754e2faedba4",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "size": 5,
+                    "ips": [
+                        "122.33.4.23",
+                        "122.33.4.24",
+                        "122.33.4.25",
+                        "122.33.4.26",
+                        "122.33.4.27"
+                    ],
+                    "location": "de/fra"
+                }
+            } 
+
+## IP block [/ipblocks/{ipblock_id}]
+
++ Parameters
+    + ipblock_id ... IP block identifier
+    
+### Retrieve an IP block [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "854467eb-a0d3-4651-ac83-754e2faedba4",
+                "type": "ipblock",
+                "href": "https://api.profitbricks.com/rest/ipblocks/854467eb-a0d3-4651-ac83-754e2faedba4",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "size": 5,
+                    "ips": [
+                        "122.33.4.23",
+                        "122.33.4.24",
+                        "122.33.4.25",
+                        "122.33.4.26",
+                        "122.33.4.27"
+                    ],
+                    "location": "de/fra"
+                }
+            }
+
+### Release an IP block [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+# Group Image
+## Images collection [/images]
+### List images [GET]
+
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "images",
+                "type": "collection",
+                "href": "https://api.profitbricks.com/rest/images",
+                "items": [
+                    {
+                        "id": "7df81087-5835-41c6-a10b-3e098593bbd2",
+                        "type": "image",
+                        "href": "https://api.profitbricks.com/rest/images/7df81087-5835-41c6-a10b-3e098593bbd2",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "Ubuntu 14.04",
+                            "description": "Ubuntu image description",
+                            "location": "de/fkb",
+                            "size": 28,
+                            "public": false,
+                            "imageType": "CDROM",
+                            "cpuHotPlug": false,
+                            "cpuHotUnplug": false,
+                            "ramHotPlug": false,
+                            "ramHotUnplug": false,
+                            "nicHotPlug": false,
+                            "nicHotUnplug": false,
+                            "discVirtioHotPlug": false,
+                            "discVirtioHotUnplug": false,
+                            "discScsiHotPlug": false,
+                            "discScsiHotUnplug": false,
+                            "licenceType": "LINUX"
+                        }
+                    },
+                    {
+                        "id": "d2961323-108f-4675-b8a1-6e2eaf4d0267",
+                        "type": "image",
+                        "href": "https://api.profitbricks.com/rest/images/d2961323-108f-4675-b8a1-6e2eaf4d0267",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "Windows 7",
+                            "description": "Ubuntu image description",
+                            "location": "de/fkb",
+                            "size": 128,
+                            "public": true,
+                            "imageType": "CDROM",
+                            "cpuHotPlug": false,
+                            "cpuHotUnplug": false,
+                            "ramHotPlug": false,
+                            "ramHotUnplug": false,
+                            "nicHotPlug": false,
+                            "nicHotUnplug": false,
+                            "discVirtioHotPlug": false,
+                            "discVirtioHotUnplug": false,
+                            "discScsiHotPlug": false,
+                            "discScsiHotUnplug": false,
+                            "licenceType": "WINDOWS"
+                        }
+                    }
+                ]
+            }
+
+## Image [/images/{image_id}]
+
++ Parameters
+    + image_id ... Image identifier
+    
+### Retrieve an image [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "7df81087-5835-41c6-a10b-3e098593bbd2",
+                "type": "image",
+                "href": "https://api.profitbricks.com/rest/images/7df81087-5835-41c6-a10b-3e098593bbd2",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "Ubuntu 14.04",
+                    "description": "Ubuntu image description",
+                    "location": "de/fkb",
+                    "size": 28,
+                    "public": false,
+                    "imageType": "CDROM",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false,
+                    "licenceType": "UNKNOWN"
+                }
+            }
+
+### Replace properties of an image [PUT]
+
++ Request (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "Ubuntu 14.04 - updated",
+                    "description": "Ubuntu image description - updated",
+                    "imageType": "CDROM",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false,
+                    "licenceType": "UNKNOWN"
+                }
+            }
+            
++ Response 202 (application/vnd.profitbricks.resource+json)            
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            
+    + Body 
+            
+            {
+                "id": "7df81087-5835-41c6-a10b-3e098593bbd2",
+                "type": "image",
+                "href": "https://api.profitbricks.com/rest/images/7df81087-5835-41c6-a10b-3e098593bbd2",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },                 
+                "properties": {
+                    "name": "Ubuntu 14.04 - updated",
+                    "description": "Ubuntu image description - updated",
+                    "location": "de/fkb",
+                    "size": 28,
+                    "public": false,
+                    "imageType": "CDROM",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false,
+                    "licenceType": "LINUX"
+                }
+            }
+
+### Partially update an image [PATCH]
+
++ Request Rename an image (application/vnd.profitbricks.partial-properties+json)
+
+            {
+                "name": "New name"
+            }
+
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+            {
+                "id": "7df81087-5835-41c6-a10b-3e098593bbd2",
+                "type": "image",
+                "href": "https://api.profitbricks.com/rest/images/7df81087-5835-41c6-a10b-3e098593bbd2",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "AVAILABLE",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                    "name": "New name",
+                    "description": "Ubuntu image description",
+                    "location": "de/fkb",
+                    "size": 28,
+                    "public": false,
+                    "imageType": "CDROM",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false,
+                    "licenceType": "UNKNOWN"
+                }
+            }
+
+### Remove an image [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+# Group Snapshot
+## Snapshots collection [/snapshots]
+### List snapshots [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "snapshots",
+                "type": "collection",
+                "href": "https://api.profitbricks.com/rest/snapshots",
+                "items": [
+                    {
+                         "id": "7df81087-5835-41c6-a10b-3e098593bba4",
+                         "type": "snapshot",
+                         "href": "https://api.profitbricks.com/rest/snapshots/7df81087-5835-41c6-a10b-3e098593bba4",
+                         "metadata": {
+                             "lastModifiedDate": "2014-02-01T11:12:12Z",
+                             "lastModifiedBy": "User X",
+                             "createdDate": "2014-02-01T11:12:12Z",
+                             "createdBy": "User X",
+                             "state": "AVAILABLE",
+                             "etag": "123whatever"
+                         },
+                         "properties": {
+                             "name": "Snapshot of storage X on 12.12.12 12:12:12",
+                             "description": "description of a snapshot",
+                             "location": "de/fkb",
+                             "size": 28,
+                             "cpuHotPlug": false,
+                             "cpuHotUnplug": false,
+                             "ramHotPlug": false,
+                             "ramHotUnplug": false,
+                             "nicHotPlug": false,
+                             "nicHotUnplug": false,
+                             "discVirtioHotPlug": false,
+                             "discVirtioHotUnplug": false,
+                             "discScsiHotPlug": false,
+                             "discScsiHotUnplug": false,
+                             "licenceType": "UNKNOWN"
+                         }
+                    }
+                ]
+            }
+               
+## Snapshot [/snapshots/{snapshot_id}]
+
++ Parameters
+    + snapshot_id ... Snapshot identifier
+    
+### Retrieve a snapshot [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+                   {
+                        "id": "7df81087-5835-41c6-a10b-3e098593bba4",
+                        "type": "snapshot",
+                        "href": "https://api.profitbricks.com/rest/snapshots/7df81087-5835-41c6-a10b-3e098593bba4",
+                        "metadata": {
+                            "lastModifiedDate": "2014-02-01T11:12:12Z",
+                            "lastModifiedBy": "User X",
+                            "createdDate": "2014-02-01T11:12:12Z",
+                            "createdBy": "User X",
+                            "state": "AVAILABLE",
+                            "etag": "123whatever"
+                        },
+                        "properties": {
+                            "name": "Snapshot of storage X on 12.12.12 12:12:12",
+                            "description": "description of a snapshot",
+                            "location": "de/fkb",
+                            "size": 28,
+                            "cpuHotPlug": false,
+                            "cpuHotUnplug": false,
+                            "ramHotPlug": false,
+                            "ramHotUnplug": false,
+                            "nicHotPlug": false,
+                            "nicHotUnplug": false,
+                            "discVirtioHotPlug": false,
+                            "discVirtioHotUnplug": false,
+                            "discScsiHotPlug": false,
+                            "discScsiHotUnplug": false,
+                            "licenceType": "UNKNOWN"
+                        }
+                   }
+                   
+### Replace properties of a snapshot [PUT]
+
++ Request (application/vnd.profitbricks.resource+json)
+
+            {
+                "properties": {
+                    "name": "Snapshot of storage X on 12.12.12 12:12:12 - updated",
+                    "description": "description of a snapshot - updated",
+                    "cpuHotPlug": false,
+                    "cpuHotUnplug": false,
+                    "ramHotPlug": false,
+                    "ramHotUnplug": false,
+                    "nicHotPlug": false,
+                    "nicHotUnplug": false,
+                    "discVirtioHotPlug": false,
+                    "discVirtioHotUnplug": false,
+                    "discScsiHotPlug": false,
+                    "discScsiHotUnplug": false
+                }
+            }
+
++ Response 202 (application/vnd.profitbricks.resource+json)            
+
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            
+    + Body 
+            
+            {
+                "id": "7df81087-5835-41c6-a10b-3e098593bba4",
+                "type": "snapshot",
+                "href": "https://api.profitbricks.com/rest/snapshots/7df81087-5835-41c6-a10b-3e098593bba4",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                     "name": "Snapshot of storage X on 12.12.12 12:12:12 - updated",
+                     "description": "description of a snapshot - updated",
+                     "location": "de/fkb",
+                     "size": 28,
+                     "cpuHotPlug": false,
+                     "cpuHotUnplug": false,
+                     "ramHotPlug": false,
+                     "ramHotUnplug": false,
+                     "nicHotPlug": false,
+                     "nicHotUnplug": false,
+                     "discVirtioHotPlug": false,
+                     "discVirtioHotUnplug": false,
+                     "discScsiHotPlug": false,
+                     "discScsiHotUnplug": false,
+                     "licenceType": "WINDOWS"
+                 }
+            }
+
+### Partially update a snapshot [PATCH]
+
++ Request Rename a snapshot (application/vnd.profitbricks.partial-properties+json)
+
+            {
+                "name": "New name"
+            }
+
++ Response 202 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+    + Body
+
+            {
+                "id": "7df81087-5835-41c6-a10b-3e098593bbd2",
+                "type": "snapshot",
+                "href": "https://api.profitbricks.com/rest/images/7df81087-5835-41c6-a10b-3e098593bbd2",
+                "metadata": {
+                    "lastModifiedDate": "2014-02-01T11:12:12Z",
+                    "lastModifiedBy": "User X",
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "state": "BUSY",
+                    "etag": "123whatever"
+                },
+                "properties": {
+                     "name": "New name",
+                     "description": "description of a snapshot - updated",
+                     "location": "de/fkb",
+                     "size": 28,
+                     "cpuHotPlug": false,
+                     "cpuHotUnplug": false,
+                     "ramHotPlug": false,
+                     "ramHotUnplug": false,
+                     "nicHotPlug": false,
+                     "nicHotUnplug": false,
+                     "discVirtioHotPlug": false,
+                     "discVirtioHotUnplug": false,
+                     "discScsiHotPlug": false,
+                     "discScsiHotUnplug": false,
+                     "licenceType": "WINDOWS"
+                 }
+            }
+            
+### Remove a snapshot [DELETE]
+
++ Response 202 
+    
+    + Headers
+    
+            Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+
+# Group Request
+## Requests collection [/requests]
+### List requests [GET]
+
++ Response 200 (application/vnd.profitbricks.collection+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+                {
+                  "id": "requests",
+                  "type": "collection",
+                  "href": "https://api.profitbricks.com/rest/requests",
+                  "items": [
+                    {
+                      "id": "59359eae-cdcd-406f-900b-58b3ad9d8de9",
+                      "type": "request",
+                      "href": "https://api.profitbricks.com/rest/requests/59359eae-cdcd-406f-900b-58b3ad9d8de9"
+                    },
+                    {
+                      "id": "8180b4ab-c5d8-449a-bf4f-cccd34336cf3",
+                      "type": "request",
+                      "href": "https://api.profitbricks.com/rest/requests/8180b4ab-c5d8-449a-bf4f-cccd34336cf3"
+                    }
+                  ]
+                }
+
+## Request [/requests/{request_id}]
+
++ Parameters
+    + request_id ... Request identifier
+    
+### Retrieve a request [GET]
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "59359eae-cdcd-406f-900b-58b3ad9d8de9",
+                "type": "request",
+                "href": "https://<base-url>/request/59359eae-cdcd-406f-900b-58b3ad9d8de9",
+                "metadata": {
+                    "createdDate": "2014-02-01T11:12:12Z",
+                    "createdBy": "User X",
+                    "etag" : "37a6259cc0c1dae299a7866489dff0bd",
+                    "requestStatus": {
+                        "id": "59359eae-cdcd-406f-900b-58b3ad9d8de9",
+                        "type": "request-status",
+                        "href": "https://<base-url>/request/59359eae-cdcd-406f-900b-58b3ad9d8de9/status"
+                    }
+                },
+                "properties": {
+                    "method": "PUT",
+                    "headers": {
+                        "Content-Type": "application/vnd.profitbricks.request+json",
+                        "If-None-Match": "etaghash123"
+                    },
+                    "body": "the full body",
+                    "url": "https://api.profitbricks.com/rest/<url-i-requested>?with=queryParam"
+                }
+            }
+
+## Status of a request [/requests/{request_id}/status]
+
++ Parameters
+    + request_id ... Request identifier
+    
+### Retrieve status of a request [GET]
+
++ Request When still running 
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "59359eae-cdcd-406f-900b-58b3ad9d8de9/status",
+                "type": "request-status",
+                "href": "https://<base-url>/request/59359eae-cdcd-406f-900b-58b3ad9d8de9/status",
+                "metadata": {
+                    "status": "RUNNING",
+                    "message": "Request is being processed",
+                    "etag": "37a6259cc0c1dae299a7866489dff0bd",
+                    "targets": [
+                        {
+                            "target": {
+                                "id": "<NEW-SERVER-ID>",
+                                "type": "server",
+                                "href": "<base>/datacenters/<UUID1>/servers/<NEW-SERVER-ID>"
+                            },
+                            "status": "RUNNING"
+                        },
+                        {
+                            "target": {
+                                "id": "<NEW-NIC-ID>",
+                                "type": "NEW-NIC-ID",
+                                "href": "<base>/datacenters/<UUID1>/servers/<NEW-SERVER-ID>/nics/<NEW-NIC-ID>"
+                            },
+                            "status": "RUNNING"
+                        }
+                    ]
+                }
+            }
+
++ Request When ready 
+
++ Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+
+    + Body
+
+            {
+                "id": "59359eae-cdcd-406f-900b-58b3ad9d8de9",
+                "type": "request-status",
+                "href": "https://<base-url>/request/59359eae-cdcd-406f-900b-58b3ad9d8de9/status",
+                "metadata": {
+                    "status" : "DONE",
+                    "message" : "Request has been successfully executed",
+                    "etag" : "2ba22e58ca17bb728d522bba36cf8350",
+                    "targets": [
+                        {
+                            "target": {
+                                "id": "<NEW-SERVER-ID>",
+                                "type": "server",
+                                "href": "<base>/datacenters/<UUID1>/servers/<NEW-SERVER-ID>"
+                            },
+                            "status": "DONE"
+                        },
+                        {
+                            "target": {
+                                "id": "<NEW-NIC-ID>",
+                                "type": "NEW-NIC-ID",
+                                "href": "<base>/datacenters/<UUID1>/servers/<NEW-SERVER-ID>/nics/<NEW-NIC-ID>"
+                            },
+                            "status": "DONE"
+                        }
+                    ]
+                }
+            }
+
+    
+    
