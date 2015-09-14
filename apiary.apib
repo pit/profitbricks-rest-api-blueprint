@@ -16,6 +16,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
     
@@ -55,6 +58,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
      
     + Body
    
@@ -210,6 +216,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
      
     + Body
    
@@ -269,6 +279,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
     
@@ -317,6 +330,16 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
 + Request Call with ?depth=1 /expand immediate children/
         
 + Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
+
+
+    + Body
         
                {
                    "id": "700e1cab-99b2-4c30-ba8c-1d273ddba022",
@@ -552,7 +575,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-            
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body 
             
             {
@@ -610,7 +636,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-            
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body 
             
             {
@@ -662,6 +691,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 # Group Server 
 
@@ -677,6 +709,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -753,7 +788,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
             {
@@ -826,7 +864,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
             {
@@ -885,6 +926,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -931,6 +975,15 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
 + Request Call with ?depth=1 /expand immediate children/
 
 + Response 200 (application/vnd.profitbricks.resource+json)
+
+    + Headers
+
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
+
+
+    + Body
 
             {
                 "id": "700e1cab-99b2-4c30-ba8c-1d273ddba023",
@@ -1088,7 +1141,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
     
                 {
@@ -1146,7 +1202,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
     
                 {
@@ -1198,7 +1257,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-            
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
 ## Server volumes collection [/datacenters/{datacenter_id}/servers/{server_id}/volumes]
 
 + Parameters
@@ -1214,6 +1276,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -1270,7 +1335,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
     
                 {
@@ -1319,7 +1387,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
 
      + Headers
 
-             ETag: 123whatever
+            ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
      + Body
 
@@ -1363,6 +1434,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 ## Server CD Roms collection [/datacenters/{datacenter_id}/servers/{server_id}/cdroms]
 
@@ -1377,6 +1451,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -1434,7 +1511,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
     
             {
@@ -1486,6 +1566,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -1529,6 +1612,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 ## Start server command [/datacenters/{datacenter_id}/servers/{server_id}/start]
 
@@ -1545,7 +1631,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-            
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
 ## Stop server command [/datacenters/{datacenter_id}/servers/{server_id}/stop]
 
 + Parameters
@@ -1561,7 +1650,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-            
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
 ## Reboot server command [/datacenters/{datacenter_id}/servers/{server_id}/reboot]
 
 + Parameters
@@ -1577,6 +1669,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 # Group Nic 
 
@@ -1593,6 +1688,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -1673,7 +1771,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
             {
@@ -1719,6 +1820,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -1769,7 +1873,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
             {
@@ -1814,7 +1921,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
             {
@@ -1855,6 +1965,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 ## Firewall rules collection [/datacenters/{datacenter_id}/servers/{server_id}/nics/{nic_id}/firewallrules]
 
@@ -1870,6 +1983,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -1954,6 +2070,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -1998,6 +2117,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -2050,6 +2172,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -2093,6 +2218,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -2129,6 +2257,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 # Group Volume
 ## Volumes collection [/datacenters/{datacenter_id}/volumes]
@@ -2143,6 +2274,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -2207,7 +2341,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
             {
@@ -2256,6 +2393,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -2309,7 +2449,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
             {
@@ -2359,7 +2502,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
             {
@@ -2402,7 +2548,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-            
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
 ## Create snapshot command [/datacenters/{datacenter_id}/volumes/{volume_id}/create-snapshot]
 
 + Parameters
@@ -2427,6 +2576,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -2485,6 +2637,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 # Group Loadbalancer
 ## Loadbalancers collection [/datacenters/{datacenter_id}/loadbalancers]
@@ -2499,6 +2654,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -2552,7 +2710,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
                 {
@@ -2608,6 +2769,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -2652,6 +2816,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -2698,7 +2865,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
                 {
@@ -2741,7 +2911,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
    
                 {
@@ -2777,7 +2950,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-            
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
 ## Balanced nics collection [/datacenters/{datacenter_id}/loadbalancers/{loadbalancer_id}/balancednics]
 
 + Parameters
@@ -2791,6 +2967,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -2843,7 +3022,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-     
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body
     
                 {
@@ -2890,6 +3072,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -2930,6 +3115,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 # Group Lan
 ## Lans collection [/datacenters/{datacenter_id}/lans]
@@ -2944,6 +3132,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -2995,6 +3186,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -3049,6 +3243,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -3091,6 +3288,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3134,6 +3334,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -3175,6 +3378,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -3210,6 +3416,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 ## Lan members collection [/datacenters/{datacenter_id}/lans/{lan_id}/nics]
 
@@ -3226,6 +3435,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3272,6 +3484,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3371,6 +3586,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3418,6 +3636,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3439,6 +3660,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3489,6 +3713,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -3528,6 +3755,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3562,6 +3792,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 # Group Image
 ## Images collection [/images]
@@ -3573,6 +3806,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3660,6 +3896,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3724,7 +3963,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-            
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body 
             
             {
@@ -3773,6 +4015,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -3816,6 +4061,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 # Group Snapshot
 ## Snapshots collection [/snapshots]
@@ -3826,6 +4074,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3879,6 +4130,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -3939,7 +4193,10 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
-            
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
+
     + Body 
             
             {
@@ -3986,6 +4243,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
     + Body
 
@@ -4027,6 +4287,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
     
             Location: https://api.profitbricks.com/rest/requests/<REQUEST_ID>/status
+            X-RateLimit-Burst: 30
+            X-RateLimit-Remaining: 28
+            X-RateLimit-Limit: 120
 
 # Group Request
 ## Requests collection [/requests]
@@ -4037,6 +4300,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -4070,6 +4336,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -4112,6 +4381,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
@@ -4151,6 +4423,9 @@ Profitbricks REST API allows creation and manipulation of Virtual Datacenters an
     + Headers
 
             ETag: 123whatever
+            X-RateLimit-Burst: 50
+            X-RateLimit-Remaining: 48
+            X-RateLimit-Limit: 600
 
     + Body
 
